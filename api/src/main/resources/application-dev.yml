@@ -1,0 +1,6 @@
+promo:
+  environment: dev
+
+logging:
+  level:
+    org.hibernate.SQL: debug     # show every SQL statement in dev

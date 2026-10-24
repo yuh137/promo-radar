@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: promoradar-api
+  datasource:
+    # host, name and user are the same in every environment; only the host part of the URL changes
+    url: jdbc:postgresql://localhost:5432/promo?ApplicationName=promoradar-api
+    username: promo_app
+    password: ${PROMO_APP_PASSWORD}
+  jpa:
+    open-in-view: false          # a transaction per request, not per view; the API has no views
+    hibernate:
+      ddl-auto: none             # Flyway owns the schema; Hibernate never changes it
+  flyway:
+    enabled: false               # on only in the migrate profile (D2) and the test profile (D7)
+    user: promo_owner
+    password: ${PROMO_OWNER_PASSWORD}
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      group:
+        readiness:
+          include: readinessState,db   # ready only when PostgreSQL answers
+
+promo:
+  default-page-size: 20
